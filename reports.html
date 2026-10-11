@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تقارير التأخير</title>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -43,9 +35,7 @@
             margin-top: 0;
         }
 
-        h2 {
-            color: #4f46a5;
-        }
+        h2 { color: #4f46a5; }
 
         .filters {
             display: grid;
@@ -59,8 +49,7 @@
             margin-bottom: 7px;
         }
 
-        input,
-        select {
+        input, select {
             width: 100%;
             padding: 13px;
             border: 1px solid #ddd;
@@ -89,9 +78,7 @@
             margin-bottom: 5px;
         }
 
-        .table-container {
-            overflow-x: auto;
-        }
+        .table-container { overflow-x: auto; }
 
         table {
             width: 100%;
@@ -99,8 +86,7 @@
             border-collapse: collapse;
         }
 
-        th,
-        td {
+        th, td {
             padding: 12px;
             text-align: center;
             border-bottom: 1px solid #eee;
@@ -111,9 +97,7 @@
             color: white;
         }
 
-        tr:hover {
-            background: #f8f8ff;
-        }
+        tbody tr:hover { background: #f8f8ff; }
 
         .buttons {
             display: grid;
@@ -133,8 +117,11 @@
             cursor: pointer;
         }
 
-        button:hover {
-            background: #555fd1;
+        button:hover { background: #555fd1; }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .no-report {
@@ -152,16 +139,7 @@
         }
 
         @media (max-width: 700px) {
-
-            .filters {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .buttons {
+            .filters, .stats, .buttons {
                 grid-template-columns: 1fr;
             }
 
@@ -170,74 +148,41 @@
                 margin: 15px auto;
             }
 
-            .card {
-                padding: 18px;
-            }
+            .card { padding: 18px; }
         }
 
         @media print {
+            body { background: white; }
 
-            body {
-                background: white;
+            .filters, .buttons, .site-footer {
+                display: none !important;
             }
 
-            .filters,
-            .buttons,
-            .site-footer {
-                display: none;
-            }
+            .card { box-shadow: none; }
 
-            .card {
-                box-shadow: none;
-            }
-
-            h1 {
-                color: black;
-            }
+            h1 { color: black; }
 
             th {
                 background: #ddd !important;
                 color: black !important;
             }
-
         }
-
     </style>
 
-    <!-- مكتبة Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
 </head>
 
-
 <body>
-
 <div class="container">
 
-    <!-- عنوان التقرير -->
-
     <div class="card">
-
-        <h1>
-            📊 تقارير التأخير
-        </h1>
+        <h1>📊 تقارير التأخير</h1>
 
         <div class="filters">
-
-            <!-- الشهر -->
-
             <div>
-
-                <label for="reportMonth">
-                    📅 الشهر
-                </label>
-
+                <label for="reportMonth">📅 الشهر</label>
                 <select id="reportMonth">
-
-                    <option value="">
-                        كل الأشهر
-                    </option>
-
+                    <option value="">كل الأشهر</option>
                     <option value="1">كانون الثاني</option>
                     <option value="2">شباط</option>
                     <option value="3">آذار</option>
@@ -250,147 +195,74 @@
                     <option value="10">تشرين الأول</option>
                     <option value="11">تشرين الثاني</option>
                     <option value="12">كانون الأول</option>
-
                 </select>
-
             </div>
 
-
-            <!-- التاريخ -->
-
             <div>
-
-                <label for="reportDate">
-                    📆 تاريخ محدد
-                </label>
-
-                <input
-                    type="date"
-                    id="reportDate"
-                >
-
+                <label for="reportDate">📆 تاريخ محدد</label>
+                <input type="date" id="reportDate">
             </div>
 
-
-            <!-- الصف -->
-
             <div>
-
-                <label for="reportClass">
-                    🏫 الصف
-                </label>
-
+                <label for="reportClass">🏫 الصف</label>
                 <select id="reportClass">
-
-                    <option value="">
-                        كل الصفوف
-                    </option>
-
+                    <option value="">كل الصفوف</option>
                     <option>سابع أ</option>
                     <option>سابع ب</option>
                     <option>سابع ج</option>
-
                     <option>ثامن أ</option>
                     <option>ثامن ب</option>
                     <option>ثامن ج</option>
-
                     <option>تاسع أ</option>
                     <option>تاسع ب</option>
                     <option>تاسع ج</option>
-
                     <option>عاشر أ</option>
                     <option>عاشر ب</option>
-
                     <option>أول ثانوي أ</option>
                     <option>أول ثانوي ب</option>
-
                     <option>توجيهي صحي</option>
                     <option>توجيهي هندسي</option>
                     <option>توجيهي لغات</option>
                     <option>توجيهي أعمال</option>
-
                     <option>عاشر IT</option>
                     <option>أول ثانوي IT</option>
                     <option>توجيهي IT</option>
-
                     <option>عاشر أعمال</option>
                     <option>أول ثانوي أعمال</option>
-
                     <option>توجيهي BTEC أعمال</option>
-
                 </select>
-
             </div>
-
         </div>
-
     </div>
-
-
-    <!-- الإحصائيات -->
 
     <div class="stats">
-
         <div class="stat">
-
-            <div class="stat-number"
-                 id="totalLate">
-                0
-            </div>
-
-            <div>
-                إجمالي التأخيرات
-            </div>
-
+            <div class="stat-number" id="totalLate">0</div>
+            <div>إجمالي التأخيرات</div>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-number"
-                 id="totalStudents">
-                0
-            </div>
-
-            <div>
-                عدد الطالبات المتأخرات
-            </div>
-
+            <div class="stat-number" id="totalStudents">0</div>
+            <div>عدد الطالبات المتأخرات</div>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-number"
-                 id="topClass">
-                -
-            </div>
-
-            <div>
-                أكثر صف فيه تأخير
-            </div>
-
+            <div class="stat-number" id="topClass">-</div>
+            <div>أكثر صف فيه تأخير</div>
         </div>
-
     </div>
 
-
-    <!-- تفاصيل التقرير -->
-
     <div class="card">
+        <h2>📋 تفاصيل التقرير</h2>
 
-        <h2>
-            📋 تفاصيل التقرير
-        </h2>
+        <p id="loadStatus" class="no-report" aria-live="polite">
+            جارٍ تحميل السجلات من قاعدة البيانات...
+        </p>
 
         <div class="table-container">
-
             <table>
-
                 <thead>
-
                     <tr>
-
                         <th>#</th>
                         <th>اسم الطالبة</th>
                         <th>الصف</th>
@@ -398,486 +270,341 @@
                         <th>الوقت</th>
                         <th>السبب</th>
                         <th>المعلمة</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody id="reportTable"></tbody>
-
             </table>
-
         </div>
 
-
-        <p id="noReport"
-           class="no-report">
-
+        <p id="noReport" class="no-report" hidden>
             لا توجد بيانات حسب الفلاتر المختارة.
-
         </p>
 
-
-        <!-- الأزرار -->
-
         <div class="buttons">
-
-            <button onclick="printReport()">
-                🖨️ طباعة التقرير
-            </button>
-
-            <button onclick="downloadExcel()">
-                📥 تنزيل Excel
-            </button>
-
-            <button onclick="window.location.href='dashboard.html'">
-                ← العودة للوحة الرئيسية
-            </button>
-
+            <button id="printButton" type="button">🖨️ طباعة التقرير</button>
+            <button id="excelButton" type="button">📥 تنزيل Excel</button>
+            <button id="homeButton" type="button">← الرجوع للصفحة الرئيسية</button>
         </div>
-
     </div>
-
 </div>
 
-
-<!-- الحقوق -->
-
 <footer class="site-footer">
-
-    © جميع الحقوق محفوظة
-    <br>
+    © جميع الحقوق محفوظة<br>
     تصميم وتطوير سالي موسى العمرات
-
 </footer>
 
+<script type="module">
+    import { db, auth } from "./firebase.js";
 
-<script>
+    import {
+        collection,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-let records =
-    JSON.parse(
-        localStorage.getItem("lateRecords")
-    ) || [];
+    import {
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+    let records = [];
+    let loadStarted = false;
 
-const monthInput =
-    document.getElementById("reportMonth");
+    const monthInput = document.getElementById("reportMonth");
+    const dateInput = document.getElementById("reportDate");
+    const classSelect = document.getElementById("reportClass");
+    const table = document.getElementById("reportTable");
+    const noReport = document.getElementById("noReport");
+    const loadStatus = document.getElementById("loadStatus");
 
-const dateInput =
-    document.getElementById("reportDate");
-
-const classSelect =
-    document.getElementById("reportClass");
-
-const table =
-    document.getElementById("reportTable");
-
-const noReport =
-    document.getElementById("noReport");
-
-
-/* =========================
-   تحويل التاريخ إلى أجزاء
-========================= */
-
-function getRecordDate(record) {
-
-    if (!record.date) {
-        return null;
+    // تحويل الأرقام العربية إلى أرقام إنجليزية
+    function normalizeDigits(value) {
+        return String(value ?? "")
+            .replace(/[٠-٩]/g, digit =>
+                "٠١٢٣٤٥٦٧٨٩".indexOf(digit)
+            )
+            .replace(/[۰-۹]/g, digit =>
+                "۰۱۲۳۴۵۶۷۸۹".indexOf(digit)
+            );
     }
 
-    /*
-       التاريخ محفوظ بصيغة ar-JO
-       مثل:
-       ١٨‏/٨‏/٢٠٢٦
-    */
+    // استخراج تاريخ السجل بصيغة السنة-الشهر-اليوم
+    function getRecordDate(record) {
+        let value = record.date;
 
-    const numbers =
-        String(record.date)
-            .replace(/[٠-٩]/g, function(d) {
-                return "٠١٢٣٤٥٦٧٨٩".indexOf(d);
-            })
-            .replace(/[^\d/]/g, "")
-            .split("/");
+        // دعم حقول التاريخ التي تكون من نوع Timestamp
+        if (value && typeof value.toDate === "function") {
+            value = value.toDate();
+        }
 
-    if (numbers.length !== 3) {
-        return null;
-    }
+        if (value instanceof Date && !isNaN(value.getTime())) {
+            return {
+                year: value.getFullYear(),
+                month: value.getMonth() + 1,
+                day: value.getDate()
+            };
+        }
 
-    return {
-        day: parseInt(numbers[0]),
-        month: parseInt(numbers[1]),
-        year: parseInt(numbers[2])
-    };
+        if (typeof value === "string") {
+            value = normalizeDigits(value).trim();
 
-}
-
-
-/* =========================
-   فلترة التقرير
-========================= */
-
-function getFilteredRecords() {
-
-    let filtered = [...records];
-
-
-    /* فلترة الشهر */
-
-    if (monthInput.value !== "") {
-
-        const selectedMonth =
-            parseInt(monthInput.value);
-
-        filtered =
-            filtered.filter(record => {
-
-                const recordDate =
-                    getRecordDate(record);
-
-                if (!recordDate) {
-                    return false;
-                }
-
-                return (
-                    recordDate.month ===
-                    selectedMonth
-                );
-
-            });
-
-    }
-
-
-    /* فلترة التاريخ المحدد */
-
-    if (dateInput.value !== "") {
-
-        const parts =
-            dateInput.value.split("-");
-
-        const selectedYear =
-            parseInt(parts[0]);
-
-        const selectedMonth =
-            parseInt(parts[1]);
-
-        const selectedDay =
-            parseInt(parts[2]);
-
-
-        filtered =
-            filtered.filter(record => {
-
-                const recordDate =
-                    getRecordDate(record);
-
-                if (!recordDate) {
-                    return false;
-                }
-
-                return (
-                    recordDate.year === selectedYear &&
-                    recordDate.month === selectedMonth &&
-                    recordDate.day === selectedDay
-                );
-
-            });
-
-    }
-
-
-    /* فلترة الصف */
-
-    if (classSelect.value !== "") {
-
-        filtered =
-            filtered.filter(record => {
-
-                return (
-                    record.className ===
-                    classSelect.value
-                );
-
-            });
-
-    }
-
-
-    return filtered;
-
-}
-
-
-/* =========================
-   تحديث التقرير
-========================= */
-
-function updateReport() {
-
-    const filtered =
-        getFilteredRecords();
-
-
-    /* إجمالي التأخيرات */
-
-    document.getElementById(
-        "totalLate"
-    ).textContent =
-        filtered.length;
-
-
-    /* عدد الطالبات المختلفات */
-
-    const uniqueStudents =
-        new Set();
-
-    filtered.forEach(record => {
-
-        if (record.studentName) {
-
-            uniqueStudents.add(
-                record.studentName
+            // صيغة 2026-10-11 أو 2026-10-11T...
+            const iso = value.match(
+                /^(\d{4})-(\d{1,2})-(\d{1,2})/
             );
 
-        }
-
-    });
-
-
-    document.getElementById(
-        "totalStudents"
-    ).textContent =
-        uniqueStudents.size;
-
-
-    /* أكثر صف فيه تأخير */
-
-    const classCounts = {};
-
-
-    filtered.forEach(record => {
-
-        const className =
-            record.className || "غير محدد";
-
-        classCounts[className] =
-            (
-                classCounts[className] || 0
-            ) + 1;
-
-    });
-
-
-    let highestClass = "-";
-    let highestCount = 0;
-
-
-    Object.keys(classCounts)
-        .forEach(className => {
-
-            if (
-                classCounts[className]
-                >
-                highestCount
-            ) {
-
-                highestCount =
-                    classCounts[className];
-
-                highestClass =
-                    className;
-
+            if (iso) {
+                return {
+                    year: Number(iso[1]),
+                    month: Number(iso[2]),
+                    day: Number(iso[3])
+                };
             }
 
+            // إزالة علامات الاتجاه التي قد ترافق التاريخ العربي
+            value = value.replace(/[\u200e\u200f\u202a-\u202e]/g, "");
+
+            // دعم 11/10/2026 أو ١١‏/١٠‏/٢٠٢٦
+            const parts = value.match(
+                /^(\d{1,2})\s*[\/.-]\s*(\d{1,2})\s*[\/.-]\s*(\d{4})$/
+            );
+
+            if (parts) {
+                return {
+                    day: Number(parts[1]),
+                    month: Number(parts[2]),
+                    year: Number(parts[3])
+                };
+            }
+        }
+
+        // استخدام createdAt كخيار احتياطي إذا تعذر قراءة date
+        const createdAt = record.createdAt;
+
+        if (createdAt && typeof createdAt.toDate === "function") {
+            const d = createdAt.toDate();
+            return {
+                year: d.getFullYear(),
+                month: d.getMonth() + 1,
+                day: d.getDate()
+            };
+        }
+
+        if (createdAt instanceof Date && !isNaN(createdAt.getTime())) {
+            return {
+                year: createdAt.getFullYear(),
+                month: createdAt.getMonth() + 1,
+                day: createdAt.getDate()
+            };
+        }
+
+        return null;
+    }
+
+    function formatDate(record) {
+        if (record.date) {
+            if (typeof record.date === "string") {
+                return record.date;
+            }
+
+            if (typeof record.date.toDate === "function") {
+                return record.date.toDate().toLocaleDateString("ar-JO");
+            }
+        }
+
+        const d = getRecordDate(record);
+
+        if (!d) return "-";
+
+        return `${String(d.day).padStart(2, "0")}/${String(d.month).padStart(2, "0")}/${d.year}`;
+    }
+
+    function getFilteredRecords() {
+        return records.filter(record => {
+            const recordDate = getRecordDate(record);
+
+            if (monthInput.value) {
+                if (!recordDate ||
+                    recordDate.month !== Number(monthInput.value)) {
+                    return false;
+                }
+            }
+
+            if (dateInput.value) {
+                if (!recordDate) return false;
+
+                const [year, month, day] = dateInput.value
+                    .split("-")
+                    .map(Number);
+
+                if (
+                    recordDate.year !== year ||
+                    recordDate.month !== month ||
+                    recordDate.day !== day
+                ) {
+                    return false;
+                }
+            }
+
+            if (
+                classSelect.value &&
+                String(record.className ?? "").trim() !== classSelect.value
+            ) {
+                return false;
+            }
+
+            return true;
+        });
+    }
+
+    function addCell(row, value) {
+        const cell = document.createElement("td");
+        cell.textContent = value == null || value === "" ? "-" : String(value);
+        row.appendChild(cell);
+    }
+
+    function updateReport() {
+        const filtered = getFilteredRecords();
+
+        document.getElementById("totalLate").textContent = filtered.length;
+
+        const uniqueStudents = new Set(
+            filtered
+                .map(record => String(record.studentName ?? "").trim())
+                .filter(Boolean)
+        );
+
+        document.getElementById("totalStudents").textContent =
+            uniqueStudents.size;
+
+        const classCounts = {};
+
+        filtered.forEach(record => {
+            const name = String(record.className ?? "").trim() || "غير محدد";
+            classCounts[name] = (classCounts[name] || 0) + 1;
         });
 
+        let highestClass = "-";
+        let highestCount = 0;
 
-    document.getElementById(
-        "topClass"
-    ).textContent =
-        highestClass;
+        Object.entries(classCounts).forEach(([name, count]) => {
+            if (count > highestCount) {
+                highestCount = count;
+                highestClass = name;
+            }
+        });
 
+        document.getElementById("topClass").textContent = highestClass;
 
-    /* الجدول */
+        table.replaceChildren();
 
-    table.innerHTML = "";
+        filtered.forEach((record, index) => {
+            const row = document.createElement("tr");
 
-
-    if (filtered.length === 0) {
-
-        noReport.style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    noReport.style.display =
-        "none";
-
-
-    filtered.forEach(
-        (record, index) => {
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${index + 1}
-                </td>
-
-                <td>
-                    ${record.studentName || "-"}
-                </td>
-
-                <td>
-                    ${record.className || "-"}
-                </td>
-
-                <td>
-                    ${record.date || "-"}
-                </td>
-
-                <td>
-                    ${record.time || "-"}
-                </td>
-
-                <td>
-                    ${record.reason || "-"}
-                </td>
-
-                <td>
-                    ${record.teacher || "-"}
-                </td>
-
-            `;
-
+            addCell(row, index + 1);
+            addCell(row, record.studentName);
+            addCell(row, record.className);
+            addCell(row, formatDate(record));
+            addCell(row, record.time);
+            addCell(row, record.reason);
+            addCell(row, record.teacher);
 
             table.appendChild(row);
+        });
 
-        }
-    );
-
-}
-
-
-/* =========================
-   تغيير الفلاتر
-========================= */
-
-monthInput.addEventListener(
-    "change",
-    updateReport
-);
-
-dateInput.addEventListener(
-    "change",
-    updateReport
-);
-
-classSelect.addEventListener(
-    "change",
-    updateReport
-);
-
-
-/* =========================
-   طباعة التقرير
-========================= */
-
-function printReport() {
-
-    window.print();
-
-}
-
-
-/* =========================
-   تنزيل Excel
-========================= */
-
-function downloadExcel() {
-
-    const filtered =
-        getFilteredRecords();
-
-
-    if (filtered.length === 0) {
-
-        alert(
-            "لا توجد بيانات حسب الفلاتر المختارة."
-        );
-
-        return;
-
+        noReport.hidden = filtered.length !== 0;
     }
 
+    async function loadRecords() {
+        loadStatus.hidden = false;
+        loadStatus.textContent = "جارٍ تحميل السجلات من Firebase...";
 
-    const excelData =
-        filtered.map(
-            (record, index) => ({
+        try {
+            const snapshot = await getDocs(collection(db, "lateRecords"));
 
-                "الرقم":
-                    index + 1,
+            records = snapshot.docs.map(documentSnapshot => ({
+                id: documentSnapshot.id,
+                ...documentSnapshot.data()
+            }));
 
-                "اسم الطالبة":
-                    record.studentName || "",
+            loadStatus.hidden = true;
+            updateReport();
 
-                "الصف":
-                    record.className || "",
+            if (records.length === 0) {
+                loadStatus.hidden = false;
+                loadStatus.textContent =
+                    "تم الاتصال بقاعدة البيانات، لكن مجموعة lateRecords لا تحتوي على سجلات.";
+            }
+        } catch (error) {
+            console.error("Firebase reports error:", error);
 
-                "التاريخ":
-                    record.date || "",
+            loadStatus.hidden = false;
 
-                "الوقت":
-                    record.time || "",
+            if (error.code === "permission-denied") {
+                loadStatus.textContent =
+                    "ليس لديك صلاحية لقراءة سجلات التأخير. تحققي من تسجيل الدخول وقواعد Firestore.";
+            } else {
+                loadStatus.textContent =
+                    "تعذر تحميل السجلات. تحققي من الاتصال بالإنترنت وإعدادات Firebase.";
+            }
 
-                "سبب التأخير":
-                    record.reason || "",
+            table.replaceChildren();
+            noReport.hidden = true;
+        }
+    }
 
-                "المعلمة":
-                    record.teacher || ""
+    monthInput.addEventListener("change", updateReport);
+    dateInput.addEventListener("change", updateReport);
+    classSelect.addEventListener("change", updateReport);
 
-            })
+    document.getElementById("printButton").addEventListener("click", () => {
+        window.print();
+    });
+
+    document.getElementById("homeButton").addEventListener("click", () => {
+        window.location.href = "dashboard.html";
+    });
+
+    document.getElementById("excelButton").addEventListener("click", () => {
+        const filtered = getFilteredRecords();
+
+        if (filtered.length === 0) {
+            alert("لا توجد بيانات حسب الفلاتر المختارة.");
+            return;
+        }
+
+        if (typeof XLSX === "undefined") {
+            alert("تعذر تحميل مكتبة Excel. تحققي من الاتصال بالإنترنت.");
+            return;
+        }
+
+        const excelData = filtered.map((record, index) => ({
+            "الرقم": index + 1,
+            "اسم الطالبة": record.studentName || "",
+            "الصف": record.className || "",
+            "التاريخ": formatDate(record),
+            "الوقت": record.time || "",
+            "سبب التأخير": record.reason || "",
+            "المعلمة": record.teacher || ""
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(
+            workbook,
+            worksheet,
+            "تقرير التأخير"
         );
 
+        XLSX.writeFile(workbook, "تقرير_تأخير_الطالبات.xlsx");
+    });
 
-    const worksheet =
-        XLSX.utils.json_to_sheet(
-            excelData
-        );
-
-
-    const workbook =
-        XLSX.utils.book_new();
-
-
-    XLSX.utils.book_append_sheet(
-        workbook,
-        worksheet,
-        "تقرير التأخير"
-    );
-
-
-    XLSX.writeFile(
-        workbook,
-        "تقرير_تأخير_الطالبات.xlsx"
-    );
-
-}
-
-
-/* تشغيل التقرير */
-
-updateReport();
-
+    // انتظار استعادة حالة تسجيل الدخول قبل قراءة البيانات
+    onAuthStateChanged(auth, () => {
+        if (!loadStarted) {
+            loadStarted = true;
+            loadRecords();
+        }
+    });
 </script>
-
 </body>
-
 </html>
